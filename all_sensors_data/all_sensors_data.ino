@@ -77,7 +77,7 @@ void reconnect()// it is used to reconnect the MQTT connection in case it is con
     }
   }
 }
-void publish_data(float humidity,float temperature, float soilmoisture, int gas, int distance=0)
+void publish_data(float humidity,float temperature, float soilmoisture, int gas, int distance)
 {
   StaticJsonDocument<200> jsonDoc;//StaticJsonDocument to store in the stack.staticJsonDocument to recommed for documents smaller than 1KB
   jsonDoc["humidity"] = humidity;//to store humidity values in jsondoc
@@ -154,24 +154,7 @@ void loop() {
   float soilmoisture = read_soil_moisture();//set of functions designed to read soilmoisture data.
   int gas = read_gas();//set of functions designed to read gas data.
   int distance = read_distance();//set of functions designed to read distance data.
-  publish_data(humidity, soilmoisture, gas, distance);//set of functions designed to print in json string of all sensors  data.
-/*StaticJsonDocument<200> jsonDoc;//StaticJsonDocument to store in the stack.staticJsonDocument to recommed for documents smaller than 1KB
-  jsonDoc["humidity"] = humidity;//to store humidity values in jsondoc
-  jsonDoc["temperature"] = temperature;//to store temperature values in jsondoc
-  jsonDoc["moisture"] = soilmoisture;//to store moisture values in jsondoc
-  jsonDoc["distance"] = distance;//to store distance values in jsondoc
-  
-  jsonDoc["gas "] = gas;//to store gas value values in jsondoc
-  // Serialize JSON to string
-  String jsonString;// to declare the variable as string data type
-  serializeJson(jsonDoc, jsonString);//allows you to insert preformatted chunks of JSON (or MessagePack) in a JsonObject or a JsonArray 
+  publish_data(humidity,temperature, soilmoisture, gas, distance);//set of functions designed to print in json string of all sensors  data.
 
-  // Print JSON string
-  Serial.println(jsonString);
-
-  delay(1000); // Adjust delay according to your needs//1000millisec=1sec
-  client.loop();// If MQTT client is connected, continue with other tasks
-  // For example, publishing sensor data or subscribing to topics
-  client.publish("esp32/test", jsonString.c_str());//connect to a broker, and messages are published to topics. */
   delay(1000);//to produce 5sec delay
 }
